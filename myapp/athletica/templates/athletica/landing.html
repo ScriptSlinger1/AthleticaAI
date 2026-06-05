@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Athletica AI | Train Smarter</title>
+    <style>
+        /* CSS Variables */
+        :root {
+            --bg-dark: #050507;
+            --text-light: #f5f5f7;
+            --text-muted: #a1a1a6;
+            --accent-primary: #0071e3; /* Apple-esque blue */
+            --accent-glow: rgba(0, 113, 227, 0.4);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --font-stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        h1 { font-size: clamp(3rem, 8vw, 5.5rem); margin-bottom: 1.5rem; }
+        h2 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 3rem; text-align: center; }
+        h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+        p { font-size: 1.125rem; color: var(--text-muted); }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #fff 0%, #888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Layout & Containers */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            background: rgba(5, 5, 7, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            color: #fff;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-primary);
+            color: #fff;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background-color: #0077ed;
+            box-shadow: 0 6px 20px rgba(0, 113, 227, 0.6);
+        }
+
+        .btn-secondary {
+            background-color: var(--glass-bg);
+            color: #fff;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 5rem;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.25rem;
+        }
+
+        /* Glass Cards Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .glass-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        /* Mockup Placeholder */
+        .mockup-container {
+            margin-top: 5rem;
+            width: 100%;
+            max-width: 900px;
+            height: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .mockup-container::after {
+            content: 'UI / Video Showcase Placeholder';
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Metrics Specifics */
+        .metric-score {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            text-align: center;
+            padding: 12rem 0;
+            background: linear-gradient(0deg, #000 0%, var(--bg-dark) 100%);
+        }
+
+        /* Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Delays for grid items */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.2s; }
+        .delay-3 { transition-delay: 0.3s; }
+        .delay-4 { transition-delay: 0.4s; }
+
+        @media (max-width: 768px) {
+            .btn-group { flex-direction: column; }
+            section { padding: 5rem 0; }
+            .mockup-container { height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-content">
+            <div class="logo">Athletica AI.</div>
+        </div>
+    </nav>
+
+    <section class="hero reveal">
+        <div class="container">
+            <h1 class="gradient-text">Fix Your Form.<br>Train Smarter.</h1>
+            <p>Athletica AI analyzes squat mechanics and recovery factors to help athletes reduce injury risk and improve performance.</p>
+            <div class="btn-group">
+                <a href="#cta" class="btn btn-primary">Analyze My Squat</a>
+                <a href="#showcase" class="btn btn-secondary">Watch Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="container">
+        <h2 class="reveal gradient-text">How It Works</h2>
+        <div class="grid">
+            <div class="glass-card reveal delay-1">
+                <span class="icon">📹</span>
+                <h3>1. Upload Video</h3>
+                <p>Record your squat from any angle and upload it directly to our secure platform.</p>
+            </div>
+            <div class="glass-card reveal delay-2">
+                <span class="icon">🧠</span>
+                <h3>2. AI Analysis</h3>
+                <p>Our computer vision models map your joint mechanics in real-time space.</p>
+            </div>
+            <div class="glass-card reveal delay-3">
+                <span class="icon">⚠️</span>
+                <h3>3. Risk Assessment</h3>
+                <p>Instantly receive an injury risk assessment based on biomechanical deviations.</p>
+            </div>
+            <div class="glass-card reveal delay-4">
+                <span class="icon">✨</span>
+                <h3>4. Get Corrections</h3>
+                <p>Access personalized, actionable feedback to fix your form before your next set.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="showcase" class="container">
+        <h2 class="reveal gradient-text">Deep Biomechanical Analysis</h2>
+        <div class="grid">
+            <div class="glass-card reveal delay-1">
+                <h3>Human Pose Skeleton</h3>
+                <p>Advanced overlay tracking 33 vital joint markers during your lift.</p>
+            </div>
+            <div class="glass-card reveal delay-2">
+                <h3>Knee Tracking</h3>
+                <p>Valgus/varus visualizations to ensure optimal patellar tracking.</p>
+            </div>
+            <div class="glass-card reveal delay-3">
+                <h3>Depth Analysis</h3>
+                <p>Precise hip crease to knee measurements verifying squat depth.</p>
+            </div>
+            <div class="glass-card reveal delay-4">
+                <h3>Risk Dashboard</h3>
+                <p>Real-time visual flagging of high-shear force moments.</p>
+            </div>
+        </div>
+        <div class="mockup-container reveal delay-2"></div>
+    </section>
+
+    <section id="metrics" class="container">
+        <h2 class="reveal gradient-text">Metrics That Matter</h2>
+        <div class="grid">
+            <div class="glass-card reveal delay-1 text-center">
+                <span class="metric-score">94%</span>
+                <h3>Knee Stability</h3>
+                <p>Measures lateral deviation under load.</p>
+            </div>
+            <div class="glass-card reveal delay-2 text-center">
+                <span class="metric-score">88%</span>
+                <h3>Back Safety</h3>
+                <p>Calculates spinal flexion and sheer forces.</p>
+            </div>
+            <div class="glass-card reveal delay-3 text-center">
+                <span class="metric-score">100%</span>
+                <h3>Squat Depth</h3>
+                <p>Parallel or below verification.</p>
+            </div>
+            <div class="glass-card reveal delay-4 text-center">
+                <span class="metric-score" style="color: #ff9f0a;">Low</span>
+                <h3>Overall Risk Rating</h3>
+                <p>Combined biomechanical safety score.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="insights" class="container">
+        <h2 class="reveal gradient-text">Recovery & Nutrition</h2>
+        <div class="grid">
+            <div class="glass-card reveal delay-1">
+                <span class="icon">🥩</span>
+                <h3>Protein Intake Analysis</h3>
+                <p>Sync with your diet apps to ensure you are hitting macros necessary for tissue repair.</p>
+            </div>
+            <div class="glass-card reveal delay-2">
+                <span class="icon">🛌</span>
+                <h3>Recovery Protocols</h3>
+                <p>Personalized stretching and active recovery recommendations based on your unique tightness.</p>
+            </div>
+            <div class="glass-card reveal delay-3">
+                <span class="icon">📈</span>
+                <h3>Performance Correlation</h3>
+                <p>Track how your sleep and nutrition data directly impacts your squat velocity and form.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="why-us" class="container">
+        <h2 class="reveal gradient-text">The Athletica Advantage</h2>
+        <div class="grid">
+            <div class="glass-card reveal delay-1">
+                <h3>Injury Prevention</h3>
+                <p>Catch micro-deviations in form before they compound into catastrophic joint injuries.</p>
+            </div>
+            <div class="glass-card reveal delay-2">
+                <h3>Data-Driven Feedback</h3>
+                <p>Stop guessing. Get objective, physics-based feedback on every single rep.</p>
+            </div>
+            <div class="glass-card reveal delay-3">
+                <h3>Faster Improvement</h3>
+                <p>Accelerate your strength gains by optimizing mechanical leverage.</p>
+            </div>
+            <div class="glass-card reveal delay-4">
+                <h3>Tailored To You</h3>
+                <p>Algorithms that adjust to your specific anthropometry and limb lengths.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta" class="final-cta reveal">
+        <div class="container">
+            <h1 class="gradient-text">Prevent injuries before they happen.</h1>
+            <div class="btn-group">
+                <a href="#" class="btn btn-primary" style="padding: 1.2rem 3rem; font-size: 1.25rem;">Start Analysis</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth Scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Intersection Observer for Scroll Reveal Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Optional: stop observing once revealed
+                    // observer.unobserve(entry.target); 
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((element) => {
+            observer.observe(element);
+        });
+
+        // Trigger immediate reveal for elements already in viewport on load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.reveal').forEach((element) => {
+                const rect = element.getBoundingClientRect();
+                if(rect.top < window.innerHeight) {
+                    element.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
